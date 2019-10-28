@@ -77,29 +77,36 @@ public class ListaService {
 			throw new DuplicatedException("Usuário já está na lista!");
 		}
 
-		mongoTemplate.updateFirst(
-				Query.query(Criteria.where("_id").is(listId)), 
-				new Update().push("users", new ShortInfoUser(userFound)), List.class);
+		Query query = new Query();
+		query.addCriteria(Criteria.where("_id").is(listId));
+		Update update = new Update();
+		update.push("users", new ShortInfoUser(userFound));
+
+		mongoTemplate.updateFirst(query, update, Lista.class);
 
 		listaTrabalho.getUsers().add(new ShortInfoUser(userFound));
 		return listaTrabalho.getUsers();
 	}
 	public List<ShortInfoUser> removeUserFromList(String userEmailOrPhone, String listId){
 
+		
 		Lista listaTrabalho = loadListaById(listId);
-		Optional<ShortInfoUser> userFound = listaTrabalho.getUsers().stream().filter(r-> 
-		r.getEmail().toLowerCase().equals(userEmailOrPhone.toLowerCase()) ||
-		r.getPhone().toLowerCase().equals(userEmailOrPhone.toLowerCase())).findFirst();
+		Optional<ShortInfoUser> itemFound = listaTrabalho.getUsers().stream().filter(r-> 
+			r.getEmail().toLowerCase().equals(userEmailOrPhone.toLowerCase()) ||
+			r.getPhone().equals(userEmailOrPhone)
+				).findFirst();
 
-		if(!userFound.isPresent()) {
+		if(!itemFound.isPresent()) {
 			throw new NotFoundException("Usuário não encontrado!");
 		}
-
-
-		mongoTemplate.updateFirst(
-				Query.query(Criteria.where("_id").is(listId)), 
-				new Update().pull("users", userFound), List.class);
-
+		
+		Query query = new Query();
+		query.addCriteria(Criteria.where("_id").is(listId));
+		Update update = new Update();
+		update.pull("users", itemFound.get());
+		
+		mongoTemplate.updateFirst(query, update, Lista.class);
+		
 		Lista listaSaida = loadListaById(listId);
 		return listaSaida.getUsers();
 	}
@@ -168,6 +175,7 @@ public class ListaService {
 	}
 	public List<ListItem> removeItemFromList(String itemId, String listId){
 
+		
 		Lista listaTrabalho = loadListaById(listId);
 		Optional<ListItem> itemFound = listaTrabalho.getItens().stream().filter(r-> 
 		r.getId().equals(itemId)).findFirst();
@@ -175,14 +183,18 @@ public class ListaService {
 		if(!itemFound.isPresent()) {
 			throw new NotFoundException("Item não encontrado!");
 		}
-
-
-		mongoTemplate.updateFirst(
-				Query.query(Criteria.where("_id").is(listId)), 
-				new Update().pull("itens", itemFound), List.class);
-
+		
+		Query query = new Query();
+		query.addCriteria(Criteria.where("itens.uid").is(itemId));
+		Update update = new Update();
+		update.pull("itens", itemFound.get());
+		
+		mongoTemplate.updateFirst(query, update, Lista.class);
+		
+		
 		Lista listaSaida = loadListaById(listId);
 		return listaSaida.getItens();
+		
 	}
 	public List<ListItem> removeAllItensFromList(String listId){
 

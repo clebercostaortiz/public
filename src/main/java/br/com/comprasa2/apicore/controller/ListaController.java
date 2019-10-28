@@ -145,7 +145,7 @@ public class ListaController {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-	@DeleteMapping(value = { "/{id-lista}/item/{id-Item}"})
+	@DeleteMapping(value = { "/{id-lista}/item/{id-item}"})
 	public ResponseEntity<?> removeItemToList(@PathVariable("id-lista") String idLista,
 			@PathVariable("id-item") String idItem) {
 		try {
