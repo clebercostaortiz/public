@@ -11,7 +11,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 public class Log {
 	
 	@Id
-	private String id="";
+	private String id;
 
 	@Field("descricao")
 	private String descricao="";

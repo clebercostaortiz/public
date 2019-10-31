@@ -16,7 +16,7 @@ public class LogService {
 
 
 	public Log insert(Log model)  {
-		Log user = logRepository.save(model);
+		Log user = logRepository.insert(model);
 		return user;
 	}
 
