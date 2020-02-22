@@ -1,4 +1,4 @@
-package br.com.comprasa2.apicore.exception;
+package br.com.itau.apilistarestritiva.exception;
 
 public class HashErrorException extends Exception{
 

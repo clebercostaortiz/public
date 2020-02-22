@@ -1,4 +1,4 @@
-package br.com.comprasa2.apicore;
+package br.com.itau.apilistarestritiva;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -6,10 +6,10 @@ import org.springframework.context.annotation.Configuration;
 
 @SpringBootApplication
 @Configuration
-public class ApiCoreApplication {
+public class ApiListaRestritivaApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ApiCoreApplication.class, args);
+		SpringApplication.run(ApiListaRestritivaApplication.class, args);
 	}
 
 }

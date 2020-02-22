@@ -1,4 +1,4 @@
-package br.com.comprasa2.apicore.config;
+package br.com.itau.apilistarestritiva.config;
 
 import java.io.IOException;
 
